@@ -1,0 +1,8 @@
+Project 3:  Data Wrangling with MongoDB:  OpenStreet Map Project
+Judy Jensen, jbark1967@gmail.com
+August 7, 2015
+Region Analyzed:  Portland, OR.  Portland is on my shortlist of places I’d like to live in the near future, so this region is particularly interesting to me.    
+Map was downloaded via mapzen per the project instructions:
+https://s3.amazonaws.com/metro-extracts.mapzen.com/portland_oregon.osm.bz2
+
+

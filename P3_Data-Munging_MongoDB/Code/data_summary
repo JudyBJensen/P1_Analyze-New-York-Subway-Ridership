@@ -1,0 +1,52 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+import xml.etree.cElementTree as ET
+import pprint
+import re
+import operator
+"""
+The first task is a fun one - find out how many unique users
+have contributed to the map in this particular area!
+
+The function process_map should return a set of unique user IDs ("uid")
+"""
+filename = 'sample.osm'
+
+def get_user(element):
+    return 
+
+def process_map(filename):
+
+    users = set()
+    user_dict = {}
+    try:
+        for _, element in ET.iterparse(filename):
+            if "uid" in element.attrib.keys():
+                user = element.attrib['uid']
+                if user not in user_dict:
+                    user_dict[user] = 1
+                else:
+                    user_dict[user] +=1
+                    element.clear
+##                user = element.attrib['uid']
+##                users.add(user)
+    except ET.ParseError:
+        pass
+    #pprint.pprint(user_dict)
+    return user_dict
+       
+##def test():
+##
+##    users = process_map(filename)
+##    pprint.pprint(user_dict)
+##    print len(users) 
+
+def sorted_dict(d):
+    sorted_v = sorted(d.items(), key = operator.itemgetter(1))
+    print sorted_v
+    return sorted_v
+
+if __name__ == "__main__":
+    process_map(filename)
+    pprint.pprint(sorted_dict(process_map(filename)))
+    print len(sorted_dict(process_map(filename)))

@@ -1,0 +1,44 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+import xml.etree.cElementTree as ET
+import pprint
+import re
+import operator
+"""
+Audit Zipcodes
+"""
+filename = 'portland_all.osm'
+
+def get_user(element):
+    return 
+
+def process_map(filename):
+    zip_dict = {}
+    try:
+        for _, element in ET.iterparse(filename, events = ('start', )):
+            if element.tag == 'way' or element.tag == 'node':
+                for tag in element.iter('tag'):
+                    if tag.attrib['k'] == "addr:postcode":
+                        zip = tag.attrib['v']
+                        if zip in zip_dict:
+                            zip_dict[zip] += 1
+                        else:
+                            zip_dict[zip] = 1
+                        tag.clear
+    except ET.ParseError:
+        pass
+    print zip_dict, len(zip_dict)
+    return zip_dict
+       
+
+
+def sorted_dict(d):
+    sorted_v = sorted(d.items(), key = operator.itemgetter(1))
+    return sorted_v
+
+if __name__ == "__main__":
+    process_map(filename)
+##    process_map(filename)
+##    pprint.pprint(sorted_dict(process_map(filename)))
+##    print len(sorted_dict(process_map(filename)))
+##

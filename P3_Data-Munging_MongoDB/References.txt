@@ -1,0 +1,52 @@
+Project 2:  OpenStreetMap Project
+Judy Jensen, jbark1967@gmail.com
+August 7, 2015
+References
+https://discussions.udacity.com/t/lesson-6-4-element-attrib-uid/25690/4
+https://docs.python.org/2/howto/regex.html#regex-howto
+https://docs.python.org/2/library/exceptions.html
+http://www.tutorialspoint.com/python/python_exceptions.htm
+http://effbot.org/zone/element-index.htm
+https://docs.python.org/2/library/xml.etree.elementtree.html
+http://stackoverflow.com/questions/15568126/how-can-i-check-the-existence-of-attributes-and-tags-in-xml-before-parsing
+http://stackoverflow.com/questions/11591348/why-am-i-getting-a-keyerror-when-the-key-clearly-exists
+http://stackoverflow.com/questions/13886168/how-to-use-the-pass-statement-in-python
+XML Attributes: www.tutorialspoint.com
+XML Quick Guide: www.tutorialspoint.com
+XML Validation : www.tutorialspoint.com
+Python GUI Programming (Tkinter) :www.tutorialspoint.com
+Python XML Processing :www.tutorialspoint.com
+http://www.tutorialspoint.com/python/python_reg_expressions.htm
+http://stackoverflow.com/questions/6930982/variable-inside-python-regex
+https://docs.python.org/2/library/collections.html#collections.defaultdict
+https://discussions.udacity.com/c/nd002-2015-04-01
+http://stackoverflow.com/questions/17140886/how-to-search-and-replace-text-in-a-file-using-python
+https://plus.google.com/u/0/events/cp4us9r19r1nveikmub6lhjaa60/117690186061813534946
+https://discussions.udacity.com/t/problem-set-6-3-tag-types/24849/4
+https://discussions.udacity.com/t/lesson-6-improving-street-names-exercise/19840/5
+https://docs.python.org/2/library/sets.html
+https://docs.python.org/2/library/re.html#search-vs-match
+http://effbot.org/zone/element-iterparse.htm#incremental-decoding
+https://docs.python.org/2/library/xml.etree.elementtree.html?highlight=iterparse#elementtree-objects
+https://docs.python.org/2.7/library/stdtypes.html#typesseq
+http://effbot.org/zone/element-iterparse.htm#incremental-decoding
+https://wiki.python.org/moin/Tutorials%20on%20XML%20processing%20with%20Python
+http://www.w3schools.com/xpath/xpath_functions.asp
+https://docs.python.org/2/library/xml.etree.elementtree.html?highlight=iterparse#reference
+https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.3
+https://wiki.openstreetmap.org/wiki/Main_Page
+https://wiki.openstreetmap.org/wiki/OSM_XML
+http://docs.mongodb.org/manual/reference/operator/aggregation/group/
+Aggregation Commands Comparison — MongoDB Manual 3.0.4 : docs.mongodb.org
+Aggregation Introduction — MongoDB Manual 3.0.4 : docs.mongodb.org
+MongoDB CRUD Introduction — MongoDB Manual 3.0.4 : docs.mongodb.org
+Query Plans — MongoDB Manual 3.0.4 : docs.mongodb.org
+Query Optimization — MongoDB Manual 3.0.4 : docs.mongodb.org
+http://docs.mongodb.org/manual/reference/operator/query/#query-selectors
+Query and Projection Operators — MongoDB Manual 3.0.4 : docs.mongodb.org
+Read Operations Overview — MongoDB Manual 3.0.4 :docs.mongodb.org
+http://docs.mongodb.org/manual/reference/glossary/#term-collection
+https://developers.google.com/edu/python/regular-expressions?csw=1#basic-patterns
+© OpenStreetMap contributors
+
+
