@@ -1,0 +1,8 @@
+When would you want to use a remote repository rather than keeping all your work local?
+  If you are working with other who may also contribute to the file, or may
+  want to work on the file from a different computer
+Describe the differences between forks, clones, and branches. When would you use one instead of another?
+  A fork creates a copy of a repository on GitHub to GitHub that reflects the original author / file.  
+  A clone is a copy of a   GitHub repository that is created on a local host.  Branches are also a copy of
+  a repository that maintain rev control by allowing users to create a copy of a file and make 
+  modifications without changing the master branch.  

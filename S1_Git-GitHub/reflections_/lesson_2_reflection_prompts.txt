@@ -1,0 +1,40 @@
+What happens when you initialize a repository? Why do you need to do it?
+
+	creates a .git file in the directory that will contain meta data on the 
+	directory.  at this point, it is a git repository.
+
+How is the staging area different from the working directory and the repository?
+What value do you think it offers?
+	
+	The staging area is the interim step between the working directory and the repository
+	it shoudld allow the user to be purposeful about commits.
+
+How can you use the staging area to make sure you have one commit per logical
+change?
+	
+	check the difference between the staging area and the working area (git diff0 
+	as well as the difference between the staging area and Commit1 (git diff --staging)
+	to confirm changes are 	not too big and not too small.
+
+What are some situations when branches would be helpful in keeping your history
+organized? How would branches help?
+	
+	Branches can be used to make experimental changes to the code, or to
+	create a unique version in addition to the master program (i.e. language 
+	or easy mode)
+
+How do the diagrams help you visualize the branch structure?
+	
+	visually clarifies the lineage of each branch to clarify what version
+	of code (features, bug fixes, etc) is indluded and what is not included
+
+What is the result of merging two branches together? Why do we represent it in
+the diagram the way we do?
+	An error, although the files appear to have merged if I do a diff between 
+	the two most recent commits in the log
+
+What are the pros and cons of Git’s automatic merging vs. always doing merges
+manually?
+	The pros of automerge is that it is fast, especially for large files - 
+	you won't miss items.  The cons are that it may make assumptions that 
+	are incorrect.
