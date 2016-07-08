@@ -70,24 +70,24 @@ That would definitely count as a specific, clear finding; however, the visualiza
  
 **Internal Feedback**	
 Format axis (%), are yields for propser loans really that good?  Find error in calculation (does not consider term).  Q1 2009 requires explanation.  Move footnotes to bottom.
-**External**
 
-*JO:  Prosper loans are really great recently, but what the heck happened before 2009.  I wouldn’t invest in them because maybe they’ll return to that performance.  
-*DJ:  gap between CD and loans is growing, well at least until 2011.
-*DJ:  is there a difference between other investments, CDs and 5 year CDs?  
-*DJ:  What happened in Q1 2009?
+**External Feedback**
+* JO:  Prosper loans are really great recently, but what the heck happened before 2009.  I wouldn’t invest in them because maybe they’ll return to that performance.  
+* DJ:  gap between CD and loans is growing, well at least until 2011.
+* DJ:  is there a difference between other investments, CDs and 5 year CDs?  
+* DJ:  What happened in Q1 2009?
 
-**Actions**	Clean up descriptions.  Look at filtering data prior to 2009 if it is justified.  Investigate issues in 2011 – was there a big decline in the return of prosper loans?  Investigate tool tip for Q1 & Q2 2009 to explain gap
+**Actions**	 Clean up descriptions.  Look at filtering data prior to 2009 if it is justified.  Investigate issues in 2011 – was there a big decline in the return of prosper loans?  Investigate tool tip for Q1 & Q2 2009 to explain gap
 
 ####Index4 – Simplified visualization with straightforward message and consistent labeling.  Fit chart to screen.  
 ![index4 chart](images/Index4.png)
  
-**External**	
-*DJ:  Prosper loans kick ass.  They are more volatile, but definitely better than 5 year CDs
-*DJ:  3 year loan return v. 5 year CD is a reasonable investment comparison.  
-*JO:  Expect the 3 year investment would have a lower, not higher return.
-*DJ:  How did you weight the different investments (all are unweighted)?
-*JO:  Scale is what I’d expect and appropriate to the data.  
+**External Feedback**	
+* DJ:  Prosper loans kick ass.  They are more volatile, but definitely better than 5 year CDs
+* DJ:  3 year loan return v. 5 year CD is a reasonable investment comparison.  
+* JO:  Expect the 3 year investment would have a lower, not higher return.
+* DJ:  How did you weight the different investments (all are unweighted)?
+* JO:  Scale is what I’d expect and appropriate to the data.  
 
 After several iterations, the visualization explains the finding that I set out to communicate as confirmed by reviewers.  Filtering keeps the story simple to the viewer without losing integrity.  
 
