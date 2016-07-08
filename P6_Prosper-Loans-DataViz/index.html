@@ -1,0 +1,137 @@
+<html>
+  <div id ="chartContainer">   
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://dimplejs.org/dist/dimple.v2.1.6.min.js"></script>
+    <script type="text/javascript">
+
+     
+      function draw(data){
+          d3.select('#chartContainer')
+            .append('h2')
+            .text("Prosper Loan Performance for closed loans");
+          
+          // create svg element for chart and filter dataset  
+          var svg = dimple.newSvg("#chartContainer", 960, 500);
+          data = dimple.filterData(data, "LoanOriginationQuarter", ['Q4 2005', 'Q1 2006', 'Q2 2006', 'Q3 2006', 'Q4 2006', 'Q1 2007','Q2 2007', 'Q3 2007', 'Q4 2007', 'Q1 2008', 'Q2 2008', 'Q3 2008', 'Q4 2008', 'Q1 2009', 'Q3 2009', 'Q4 2009', 'Q1 2010', 'Q2 2010', 'Q3 2010', 'Q4 2010', 'Q1 2011']);
+          
+          // create a chart object to allow users to interact with Prosper Rating
+          var RatingChart = new dimple.chart(svg, data);
+          
+          // set parameters for chart interactivity
+          var defaultColor = RatingChart.defaultColors[2];
+          var indicatorColor = RatingChart.defaultColors[0];
+          var frame = 2000;
+          var firstTick = true;
+
+          // position chart object on the right of the main chart
+          RatingChart.setBounds(750, 90, 160, 310);
+
+          // add ratings in desired order along the y axis
+          var Rating_y = RatingChart.addCategoryAxis("y", "ProsperRating (Alpha)");
+          Rating_y.addOrderRule(["All", "AA", "A", "B", "C", "D", "E", "HR", "null"], true);
+
+          // set x axis so shapes are fix width but still show Loan Original Amount for Prosper Rating
+          var Rating_x = RatingChart.addMeasureAxis("x", 'LoanOriginalAmount');
+          Rating_x.overrideMax = 1;
+          Rating_x.hidden = true;
+
+          var RatingLegend = RatingChart.addSeries(null, dimple.plot.bar);
+          RatingLegend.addEventHandler("click", onclick);
+
+          RatingChart.draw();
+
+          // adjust object elements so chart is formatted to look like selection buttons
+          Rating_y.titleShape.remove();
+          Rating_y.shapes.selectAll("line, path").remove();
+          Rating_y.shapes.selectAll("text")
+            .style("text-anchor", "start")
+            .attr("transform", "translate(18, 0.5)");
+
+          // Add simple instructions
+          svg.selectAll("title_text")
+            .data(["Click rating to select and pause",
+              "Click again to resume animation"])
+            .enter()
+            .append("text")
+            .attr("x", 750)
+            .attr("y", function (d, i) {return 45 + i * 14; })
+            .style("font-family", "sans-serif")
+            .style("font-size", "10px")
+            .style("color", "black")
+            .text(function(d) {return d;});
+
+          // format "buttons" set default and indicator color
+          RatingLegend.shapes
+            .attr("rx", 5)
+            .attr("ry", 5)
+            .style("fill", function(d) { return (d.y === "All" ? indicatorColor.fill: defaultColor.fill) })
+            .style("stroke", function(d) { return (d.y=== 'All' ? indicatorColor.stroke : defaultColor.stroke)})
+            .style("opacity", 0.5);
+
+          // create main chart
+          var myChart = new dimple.chart(svg, data);
+          myChart.setBounds(60,30,580,400);
+          
+          // set axes and format.  Override Return axis so it does not vary with input prosper rating.  
+          var myAxis_x = myChart.addCategoryAxis("x", "LoanOriginationQuarter");
+          myAxis_x.addOrderRule(['Q4 2005', 'Q1 2006', 'Q2 2006', 'Q3 2006', 'Q4 2006', 'Q1 2007','Q2 2007', 'Q3 2007', 'Q4 2007', 'Q1 2008', 'Q2 2008', 'Q3 2008', 'Q4 2008', 'Q1 2009','Q2 2009', 'Q3 2009', 'Q4 2009', 'Q1 2010', 'Q2 2010', 'Q3 2010', 'Q4 2010', 'Q1 2011']);
+          myAxis_x.title = "Loan Origination Date";
+          var y1 = myChart.addMeasureAxis("y", "LoanOriginalAmount");
+          var y2 = myChart.addMeasureAxis("y", "Return");
+          y2.overrideMax = 0.45;
+          y1.title = "Total Principal Borrowed";
+          y2.title = "Return, 3 year";
+
+          // add series to chart
+          myChart.addSeries("Total Principal Borrowed", dimple.plot.bar, [myAxis_x, y1]);
+          myChart.addSeries("3 year return", dimple.plot.line, [myAxis_x, y2]);
+          myChart.assignColor("Total Principal Borrowed", "00bcd4", "00bcd4");
+          myChart.assignColor("3 year return", "#ff6600", "ff6600");
+          
+          //create Storyboard with interactive functionality
+          var myStoryboard = myChart.setStoryboard("ProsperRating (Alpha)");
+          myStoryboard.onTick = onTick;
+          myStoryboard.addOrderRule(["All", "AA", "A", "B", "C", "D", "E", "HR", "null"]);
+          myStoryboard.frameDuration = frame;
+        
+          myChart.draw();
+          // remove legends - Rating chart will indicate current Prosper Rating shown.  
+          myChart.legends = [];
+          myStoryboard.storyLabel.remove();
+
+          // set functions for click (Rating chart) and onTick (advance chart with visual feedback) called previously
+          function onclick(e) {
+            myStoryboard.pauseAnimation();
+            if (e.yValue === myStoryboard.getFrameValue()) {
+              myStoryboard.startAnimation();
+            } 
+            else { 
+                myStoryboard.goToFrame(e.yValue);
+                myStoryboard.pauseAnimation();
+            }
+          };
+
+          function onTick(e) {
+            //debugger;
+            if (!firstTick) {
+              RatingLegend.shapes
+                .transition()
+                .duration(frame / 2)
+                .style("fill", function(d) {return d.y === e ? indicatorColor.fill : defaultColor.fill})
+                .style("stroke", function(d) {return d.y === e ? indicatorColor.stroke : defaultColor.stroke})
+            };
+            firstTick = false; 
+          }
+        }
+          
+    </script>
+    <script type="text/javascript">
+
+      // put it all together - read data and call draw function!    
+      d3.tsv("data/prosper_final.tsv", function(d){
+        d['LoanOriginalAmount'] = +d['LoanOriginalAmount'];
+        d['Return'] = +d['Return'];
+        return d}, draw);
+    </script>
+  </div>
+</html>

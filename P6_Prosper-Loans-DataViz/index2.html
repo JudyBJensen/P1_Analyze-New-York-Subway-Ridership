@@ -1,0 +1,135 @@
+<html>
+  <div id ="chartContainer">   
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://dimplejs.org/dist/dimple.v2.1.6.min.js"></script>
+    <script type="text/javascript">
+
+     
+      function draw(data){
+          d3.select('#chartContainer')
+            .append('h2')
+            .text("Return for Prosper Loans compared to 5 year CD rates")
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "20x");
+
+          // create svg element for chart and filter dataset  
+          var svg = dimple.newSvg("#chartContainer", 800, 500);
+          data = dimple.filterData(data, "LoanOriginationQuarter", ['Q1 2008', 'Q2 2008', 'Q3 2008', 'Q4 2008', 'Q1 2009', 'Q2 2009', 'Q3 2009', 'Q4 2009', 'Q1 2010', 'Q2 2010', 'Q3 2010', 'Q4 2010', 'Q1 2011']);
+          
+
+      // add introductory text in svg element
+          text = svg.selectAll('text')
+            .data(["After an SEC mandated quiet period ended in Q3 2009, Prosper implemented new procedures for 
+              ", 
+              "Prosper loans are the annual net yield for 3 year investment and weighted by loan value", 
+              "CD rates are the APR and an average of all CDs"])
+            .enter()
+            .append('text')
+            .attr("x", 0)
+            .attr("y", function (d, i) {return 20 + i *18; })
+            .attr("fill", "gray")
+            .text(function(d) {return d;});
+
+      // create main chart
+          var myChart = new dimple.chart(svg, data);
+          myChart.setBounds(60,80,740,350);
+          
+      // set axes and format.  
+
+          var myAxis_x = myChart.addCategoryAxis("x", "LoanOriginationQuarter");
+          myAxis_x.addOrderRule(['Q4 2005', 'Q1 2006', 'Q2 2006', 'Q3 2006', 'Q4 2006', 'Q1 2007','Q2 2007', 'Q3 2007', 'Q4 2007', 'Q1 2008', 'Q2 2008', 'Q3 2008', 'Q4 2008', 'Q1 2009','Q2 2009', 'Q3 2009', 'Q4 2009', 'Q1 2010', 'Q2 2010', 'Q3 2010', 'Q4 2010', 'Q1 2011']);
+          myAxis_x.title = "Investment Origination Date";
+          var myAxis_y = myChart.addMeasureAxis("y", "YieldInd");
+
+          myAxis_y.title = "Return (annual)";
+          myAxis_y.overrideMax = 0.4;
+          myAxis_y.overrideMin = -0.06;
+          //myAxis_y.tickFormat = ".1%";
+
+          //var myAxis_z = myChart.addMeasureAxis("z", "LoanOriginalAmount");
+
+          // add series to chart
+          //myChart.addSeries("Total Principal Borrowed", dimple.plot.bar, [myAxis_x, y1]);
+          //myChart.addSeries("3 year return", dimple.plot.line, [myAxis_x, y2]);
+          //myChart.assignColor("Total Principal Borrowed", "00bcd4", "00bcd4");
+          //myChart.addMeasureAxis(y1, "Return, APR");
+          //var s1 = 
+          //var avg = myChart.addSeries(["LoanOriginalAmount"], dimple.plot.bubble, [myAxis_x, myAxis_y]);
+          var avg = myChart.addSeries("Avg Prosper Loan Annual Return", dimple.plot.bubble);
+          avg.aggregate = dimple.aggregateMethod.avg;
+          debugger;
+          //avg.aggregate = dimple.aggregateMethod.avg;
+
+          //var avgL = myChart.addSeries("Avg", dimple.plot.line, [myAxis_x, myAxis_y]);
+          //avgL.aggregate = dimple.aggregateMethod.avg;
+
+          var max = myChart.addSeries("Max Prosper Loan Annual Return", dimple.plot.bubble, [myAxis_x, myAxis_y]);
+
+          //var max = myChart.addSeries("Max", dimple.plot.bubble, [myAxis_x, myAxis_y]);
+          max.aggregate = dimple.aggregateMethod.max;
+
+          //var count = myChart.addSeries('Count', dimple.plot.bubble, [myAxis_x,myAxis_z])
+          //count.aggregate = dimple.aggregateMethod.count;
+          //myChart.addSeries("Investment", dimple.plot.line, [myAxis_x, myAxis_y]);
+          //var count = myChart.addSeries("Count", dimple.plot.bar, [myAxis_x, myAxis_y2])
+          //count.aggregate = dimple.aggregateMethod.count
+          //myChart.addSeries("Investment", dimple.plot.bubble, [myAxis_x, myAxis_y]);
+          //s2.categoryFields = ['Realized Return'];
+          var myLegend = myChart.addLegend('75%','20%,-20px',40,100);
+          myLegend.verticalPadding = 10;
+          //myChart.assignColor("3 year return", "#ff6600", "ff6600");
+          
+          // //create Storyboard with interactive functionality
+          // var myStoryboard = myChart.setStoryboard("ProsperRating (Alpha)");
+          // myStoryboard.onTick = onTick;
+          // myStoryboard.addOrderRule(["All", "AA", "A", "B", "C", "D", "E", "HR", "null"]);
+          // myStoryboard.frameDuration = frame;
+        
+          myChart.draw();
+          //s2.shapes.style("opacity", function(d) {
+            //debugger;
+          //  return (d.yValue === 0 ? 0 : 0.8);
+          //});
+          //myLegend.shapes.text(["Thing1", "Thinng2"]);
+          // // remove legends - Rating chart will indicate current Prosper Rating shown.  
+          // myChart.legends = [];
+          // myStoryboard.storyLabel.remove();
+
+          // // set functions for click (Rating chart) and onTick (advance chart with visual feedback) called previously
+          // function onclick(e) {
+          //   myStoryboard.pauseAnimation();
+          //   if (e.yValue === myStoryboard.getFrameValue()) {
+          //     myStoryboard.startAnimation();
+          //   } 
+          //   else { 
+          //       myStoryboard.goToFrame(e.yValue);
+          //       myStoryboard.pauseAnimation();
+          //   }
+          // };
+
+          // function onTick(e) {
+          //   //debugger;
+          //   if (!firstTick) {
+          //     RatingLegend.shapes
+          //       .transition()
+          //       .duration(frame / 2)
+          //       .style("fill", function(d) {return d.y === e ? indicatorColor.fill : defaultColor.fill})
+          //       .style("stroke", function(d) {return d.y === e ? indicatorColor.stroke : defaultColor.stroke})
+          //   };
+          //   firstTick = false; 
+          // }
+        }
+          
+    </script>
+    <script type="text/javascript">
+
+      // put it all together - read data and call draw function!    
+      format = d3.format("0.2%");
+      d3.tsv("data/prosper_P6_2.tsv", function(d){
+        d['YieldInd'] = +(d['YieldInd']);
+        d['BorrowerAPR'] = +d['BorrowerAPR'];
+        d['LoanOriginalAmount'] = +d['LoanOriginalAmount']
+        return d}, draw);
+    </script>
+  </div>
+</html>

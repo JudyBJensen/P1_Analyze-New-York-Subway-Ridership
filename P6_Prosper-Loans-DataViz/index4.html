@@ -1,0 +1,80 @@
+<html>
+  <div id ="chartContainer">   
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://dimplejs.org/dist/dimple.v2.1.6.min.js"></script>
+    <script type="text/javascript">
+
+     
+      function draw(data){
+          d3.select('#chartContainer')
+            .append('h2')
+            .text("Prosper Loans outperform annual return for 5 year CDs")
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "20x");
+
+          // create svg element for chart and filter dataset to only include loans after the SEC "reset" and completed loans.  
+          var svg = dimple.newSvg("#chartContainer", 800, 600);
+          data = dimple.filterData(data, "LoanOriginationQuarter", ['Q3 2009', 'Q4 2009', 'Q1 2010', 'Q2 2010', 'Q3 2010', 'Q4 2010', 'Q1 2011']);
+          data = dimple.filterData(data, "LoanStatus", ['Completed', 'ChargedOff', 'Defaulted']);
+          
+
+      // add introductory text in svg element
+          text = svg.selectAll('text')
+            .data(["Since making significant changes to their business model in 2009, investors in Prosper loans have realized",  "better annual returns than 5 year CDs."])
+            .enter()
+            .append('text')
+            .attr("x", 0)
+            .attr("y", function (d, i) {return 18 + i *18; })
+            .attr("fill", "gray")
+            .text(function(d) {return d;});
+
+          footnote = svg.selectAll('footnote')
+            .data(["5yr CD are unweighted APR of 5 year CDs.  Source: www.Bankrate.com", 
+              "Prosper Loans are unweighted annual investor return for 36 and 60 month loans",
+              "Source:  ProsperLoanData"])
+            .enter()
+            .append('text')
+            .attr("x", 800)
+            .attr("y", function (d, i) {return 450 + i *12; })
+            .attr("fill", "gray")
+            .attr("font-size", "12px")
+            .attr("text-anchor", "end")
+            .text(function(d) {return d;});
+        
+      // create main chart with axes.  Format.  
+          var myChart = new dimple.chart(svg, data);
+          myChart.setBounds(60,80,740,300);
+          
+          var myAxis_x = myChart.addCategoryAxis("x", "LoanOriginationQuarter");
+          myAxis_x.addOrderRule(['Q3 2009', 'Q4 2009', 'Q1 2010', 'Q2 2010', 'Q3 2010', 'Q4 2010', 'Q1 2011']);
+          myAxis_x.title = "Investment Origination Date";
+
+          var myAxis_y = myChart.addMeasureAxis("y", "YieldInd");
+          myAxis_y.title = "Return (annual)";
+          myAxis_y.tickFormat = "0.1%";
+          // set scale that provides a "fair" comparison between the two loan sets and is relevant to an investor (0-10%)
+          myAxis_y.overrideMax = 0.1; 
+
+          // add series and legend to chart.  
+          var avg = myChart.addSeries("Instrument", dimple.plot.line);
+          avg.aggregate = dimple.aggregateMethod.avg;
+          avg.lineMarkers = true;
+
+          var myLegend = myChart.addLegend('85%','20%,-20px',40,100);
+          myLegend.verticalPadding = 10;
+
+          myChart.draw();
+        }
+          
+    </script>
+    <script type="text/javascript">
+
+      // put it all together - read data and call draw function...
+      d3.tsv("data/prosper_P6_2.tsv", function(d){
+        d['YieldInd'] = +d['YieldInd'];
+        d['BorrowerAPR'] = +d['BorrowerAPR'];
+        d['LoanOriginalAmount'] = +d['LoanOriginalAmount']
+        return d}, draw);
+    </script>
+  </div>
+</html>

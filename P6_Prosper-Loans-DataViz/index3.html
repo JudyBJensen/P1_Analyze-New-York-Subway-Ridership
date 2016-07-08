@@ -1,0 +1,116 @@
+<html>
+  <div id ="chartContainer">   
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://dimplejs.org/dist/dimple.v2.1.6.min.js"></script>
+    <script type="text/javascript">
+
+     
+      function draw(data){
+          d3.select('#chartContainer')
+            .append('h2')
+            .text("Return for Prosper Loans compared to 5 year CD rates")
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "20x");
+
+          // create svg element for chart and filter dataset  
+          var svg = dimple.newSvg("#chartContainer", 800, 500);
+          data = dimple.filterData(data, "LoanOriginationQuarter", ['Q3 2009', 'Q4 2009', 'Q1 2010', 'Q2 2010', 'Q3 2010', 'Q4 2010', 'Q1 2011']);
+          data = dimple.filterData(data, "LoanStatus", ['Completed', 'ChargedOff', 'Defaulted']);
+          
+
+      // add introductory text in svg element
+          text = svg.selectAll('text')
+            .data(["Prosper initially offered loans using an ebay type model where lenders and borrowers determined the loan rate", 
+              "In 2009, Prosper made several changes to their business model in 2009.   First, Prosper initiated new operational",  
+              "procedures for  issuing Notes and purchasing loans from WebBank, and holding the loans until maturity*.", 
+              "Prosper also initiated their prosper loan rating, and priced loans according to their rating", 
+              "Subsequent to these changes, Prosper loans have provided better returns to investors than 5 year CDs",
+              "CD rates are the APR and an average of all CDs"])
+            .enter()
+            .append('text')
+            .attr("x", 0)
+            .attr("y", function (d, i) {return 20 + i *18; })
+            .attr("fill", "gray")
+            .text(function(d) {return d;});
+
+      // create main chart
+          var myChart = new dimple.chart(svg, data);
+          myChart.setBounds(60,80,740,350);
+          
+      // set axes and format.  
+
+          var myAxis_x = myChart.addCategoryAxis("x", "LoanOriginationQuarter");
+          myAxis_x.addOrderRule(['Q3 2009', 'Q4 2009', 'Q1 2010', 'Q2 2010', 'Q3 2010', 'Q4 2010', 'Q1 2011']);
+          myAxis_x.title = "Investment Origination Date";
+          var myAxis_y = myChart.addMeasureAxis("y", "YieldInd");
+
+          myAxis_y.title = "Return (annual)";
+          myAxis_y.overrideMax = 0.1;
+          //myAxis_y.overrideMin = -0.06;
+          //myAxis_y.tickFormat = ".1%";
+
+          //var myAxis_z = myChart.addMeasureAxis("z", "LoanOriginalAmount");
+
+          // add series and legend to chart
+          var avg = myChart.addSeries("Instrument", dimple.plot.line);
+          avg.aggregate = dimple.aggregateMethod.avg;
+          avg.lineMarkers = true
+
+          var myLegend = myChart.addLegend('75%','20%,-20px',40,100);
+          myLegend.verticalPadding = 10;
+          //myChart.assignColor("3 year return", "#ff6600", "ff6600");
+          
+          // //create Storyboard with interactive functionality
+          // var myStoryboard = myChart.setStoryboard("ProsperRating (Alpha)");
+          // myStoryboard.onTick = onTick;
+          // myStoryboard.addOrderRule(["All", "AA", "A", "B", "C", "D", "E", "HR", "null"]);
+          // myStoryboard.frameDuration = frame;
+        
+          myChart.draw();
+          //s2.shapes.style("opacity", function(d) {
+            //debugger;
+          //  return (d.yValue === 0 ? 0 : 0.8);
+          //});
+          //myLegend.shapes.text(["Thing1", "Thinng2"]);
+          // // remove legends - Rating chart will indicate current Prosper Rating shown.  
+          // myChart.legends = [];
+          // myStoryboard.storyLabel.remove();
+
+          // // set functions for click (Rating chart) and onTick (advance chart with visual feedback) called previously
+          // function onclick(e) {
+          //   myStoryboard.pauseAnimation();
+          //   if (e.yValue === myStoryboard.getFrameValue()) {
+          //     myStoryboard.startAnimation();
+          //   } 
+          //   else { 
+          //       myStoryboard.goToFrame(e.yValue);
+          //       myStoryboard.pauseAnimation();
+          //   }
+          // };
+
+          // function onTick(e) {
+          //   //debugger;
+          //   if (!firstTick) {
+          //     RatingLegend.shapes
+          //       .transition()
+          //       .duration(frame / 2)
+          //       .style("fill", function(d) {return d.y === e ? indicatorColor.fill : defaultColor.fill})
+          //       .style("stroke", function(d) {return d.y === e ? indicatorColor.stroke : defaultColor.stroke})
+          //   };
+          //   firstTick = false; 
+          // }
+        }
+          
+    </script>
+    <script type="text/javascript">
+
+      // put it all together - read data and call draw function!    
+      format = d3.format("0.2%");
+      d3.tsv("data/prosper_P6_2.tsv", function(d){
+        d['YieldInd'] = +(d['YieldInd']);
+        d['BorrowerAPR'] = +d['BorrowerAPR'];
+        d['LoanOriginalAmount'] = +d['LoanOriginalAmount']
+        return d}, draw);
+    </script>
+  </div>
+</html>
