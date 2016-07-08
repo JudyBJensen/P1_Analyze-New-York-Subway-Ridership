@@ -1,7 +1,7 @@
 ##Summary
-This visualization presents Prosper loans as an alternative to investors for other long term fixed investments such as 5 year CDs.  The primary audience is investors in Prosper peer to peer loans (not borrowers or investors in the company).  
+This visualization presents Prosper loans as an alternative to investors compared to other long term fixed investments such as 5 year CDs.  The primary audience is investors in Prosper peer to peer loans (not borrowers or investors in the company).  
 The chart clearly shows Prosper loans, on average, provide a better fixed annual return to investors than a 5 year CD.  In addition, while 5 year CD rates have declined, Prosper loans returns have increased over time.  
-The time frame presented is specifically from Q3 2009 to Q1 2011.  There are two reasons for this.  
+The time frame presented is specifically from Q3 2009 to Q1 2011.  There are two reasons for this:  
 * On July 12,  2009, Prosper loans resumed trading after a 6 month quiet period with three changes to their business model that positively impacted the return on loans for investors.* 
 	* Implemented Prosper loan ratings (A through HR) that contributed to the loan rate for the borrower.
 	* Transitioned from a variable priced loan determined using an eBay type auction model to a fixed priced loan determined by the Prosper rating
@@ -10,14 +10,21 @@ The time frame presented is specifically from Q3 2009 to Q1 2011.  There are two
 
 ##Design
 The purpose of the visualization is to communicate that Prosper peer to peer loans provide returns which are better than other fixed investments, specifically a 5 year CD.  This story is targeted to the principal lender for an individual loan (not in investor in Prosper the company).  An author directed narrative was selected to communicate the comparison of average annual return for Prosper loans to 5 year CDs.  Users can compare the actual average 5yr CD APR with the actual average annual return for Prosper loans by hovering over each data point.  
-A line chart is utilized for the return.  It is an appropriate choice to chart changes over time, and also clearly demonstrates the difference between the two series.  
+
+A line chart is utilized for the return.  It is an appropriate choice to trends - both absolute and comparative - over time.   
+
 The axis is scaled from 0-10%.  This provides clarity to the viewer from a few perspectives.  The lower range is set to provide an honest baseline of 0.  The upper range of 10% is a natural point that represents a reasonable upper limit on a fixed investment, and also high enough to not create a distorted, optimistic view of the difference between the two series.   
+
 Text that provides insight to the chart is right below the title, while references are in smaller font below the chart
 
 Some data manipulation was required to the original dataset.  A new field was added, “Instrument”, with a value of “prosper loan” or “5 year CD”.  Values for the 5 year CDs were manually entered and the annual return for the prosper loan was calculated as ((final/original)^(12/Term)-1).  
+
 Propser loans are a simple average of each individual loan for simplicity, and also for consistency with the 5 year CD data.  
+
 The most difficult design decision was what date range to use for the x-axis.  Early versions used the entire date range in the prosper data set, but encountered two issues. 
+
 The return rate prior to Q3 F2009 is on average lower than 5 year CDs, and in some cases, negative.  In Q2 F2009 no loans were issued at all.  This was a strong indication there was a disruption, and so I did further research to understand what had happened to the business.  
+
 After to an SEC mandated quiet period (no loans issued) from Jan 2009-July 2009, Prosper made three significant changes to their business model.  
 * They initiated new operational procedures for issuing notes and purchasing loans from WebBank, and holding the notes until maturity.
 * The introduced the Prosper Loan Rating and priced the loans accordingly.
@@ -34,13 +41,14 @@ A few different options were considered for the interactive parameter, but in th
 ##Feedback
 
 The prosper visualization underwent 3 rounds of feedback (including the first Udacity submission).  
-**Exploration** – Explore data for trends
+
+####Exploration – Explore data for trends
 ![Explore chart](images/Explore.png)
  
-**Internal Feedback:*	Looking for interesting story on loan returns
+**Internal Feedback:**	Looking for interesting story on loan returns
 
 
-**Index** (original Udacity Submission) – Chart return and loan value by quarter.  Scroll through by loan rating and allow user to interact with this feature
+####Index - (original Udacity Submission) – Chart return and loan value by quarter.  Scroll through by loan rating and allow user to interact with this feature
 ![index chart](images/index.png)
  
 
@@ -57,10 +65,10 @@ That would definitely count as a specific, clear finding; however, the visualiza
 **Actions:**	After initially ignoring feedback that the visualization didn’t match the desired narrative (viewers see a relationship with principal and return, not return v. an unstated benchmark)…  Selected 5 year CD as a relevant metric that is straightforward to locate as a reference point.  Also, seeing that the loan rating is distracting, and really doesn’t support the narrative.  
 
 
-**Index3** – line chart of propser loan returns v. a 5 year CD.  
+####Index3 – line chart of propser loan returns v. a 5 year CD.  
 ![index3 chart](images/Index3.png)
  
-**Internal**	
+**Internal Feedback**	
 Format axis (%), are yields for propser loans really that good?  Find error in calculation (does not consider term).  Q1 2009 requires explanation.  Move footnotes to bottom.
 **External**
 
@@ -71,7 +79,7 @@ Format axis (%), are yields for propser loans really that good?  Find error in c
 
 **Actions**	Clean up descriptions.  Look at filtering data prior to 2009 if it is justified.  Investigate issues in 2011 – was there a big decline in the return of prosper loans?  Investigate tool tip for Q1 & Q2 2009 to explain gap
 
-**Index4** – Simplified visualization with straightforward message and consistent labeling.  Fit chart to screen.  
+####Index4 – Simplified visualization with straightforward message and consistent labeling.  Fit chart to screen.  
 ![index4 chart](images/Index4.png)
  
 **External**	
